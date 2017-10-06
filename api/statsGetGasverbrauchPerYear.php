@@ -21,7 +21,7 @@ if (mysqli_connect_errno() == 0)
 	$sql = "SELECT
 			
 			year(datum) as date,
-			(max((`tobi`.`gas`.`zaehlerstand` / 10)) - min((`tobi`.`gas`.`zaehlerstand` / 10))) as data
+			(max((`gas`.`zaehlerstand` / 10)) - min((`gas`.`zaehlerstand` / 10))) as data
 		from
 			gas
 		GROUP by year(datum)
