@@ -5,47 +5,34 @@ include_once 'classes/gas.inc.php';
 <head>
 <meta charset="utf-8">
 
-<meta name="description" content="">
-<meta name="author" content="">
+<title>Energieverbrauch</title>
+
+<meta name="description" content="Energieverbrauch">
+<meta name="author" content="Energieverbrauch">
 <link rel="icon" href="../../favicon.ico">
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-	integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	crossorigin="anonymous"></script>
+<script src="js/jquery-3.2.1.slim.min.js"></script>
+<script src="js/popper.js/1.11.0/umd/popper.min.js"></script>
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
-	crossorigin="anonymous">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-	integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="js/bootstrap.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/data.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js//data.js"></script>
+<script src="js/exporting.js"></script>
 
 <!-- Additional files for the Highslide popup effect -->
-<script
-	src="https://www.highcharts.com/media/com_demo/js/highslide-full.min.js"></script>
-<script
-	src="https://www.highcharts.com/media/com_demo/js/highslide.config.js"
-	charset="utf-8"></script>
-<link rel="stylesheet" type="text/css"
-	href="https://www.highcharts.com/media/com_demo/css/highslide.css" />
+<script src="js/highslide-full.min.js"></script>
+<script src="js/highslide.config.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="css/highslide.css" />
 
 
 </head>
 
 <body>
 	<div class="container">
-		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
 			<a class="navbar-brand" href="index.php">Tobi's Verbrauch</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarCollapse" aria-controls="navbarCollapse"
@@ -54,12 +41,14 @@ include_once 'classes/gas.inc.php';
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="navbar-nav mr-auto">
-<!-- 					<li class="nav-item active"><a class="nav-link" href="index.php">Home -->
-<!-- 							<span class="sr-only">(current)</span> -->
-<!-- 					</a></li> -->
-					<li class="nav-item"><a class="nav-link" href="index.php?gas&total">Nach Tagen</a>
-					<li class="nav-item"><a class="nav-link" href="index.php?gas&jahr">Nach Jahren</a>
-					</li>
+					<!-- 					<li class="nav-item active"><a class="nav-link" href="index.php">Home -->
+					<!-- 							<span class="sr-only">(current)</span> -->
+					<!-- 					</a></li> -->
+					<li class="nav-item"><a class="nav-link" href="index.php?gas&total">Nach
+							Tagen</a>
+					
+					<li class="nav-item"><a class="nav-link" href="index.php?gas&jahr">Nach
+							Jahren</a></li>
 					<!--           <li class="nav-item"> -->
 					<!--             <a class="nav-link disabled" href="#">Disabled</a> -->
 					<!--           </li> -->
@@ -72,55 +61,118 @@ include_once 'classes/gas.inc.php';
 		</nav>
 	</div>
 
-	<div class="container">
+	
+
+		
+			        <?php
+											if (isset ( $_GET ['gas'] )) {
+												
+												?>
+			<div class="container">
+	        	
+			        	<?php
+												
+												if (isset ( $_GET ['gas'] ) && isset ( $_GET ['total'] )) {
+													?>
+													<small>
+												<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="index.php">Home</a></li>
+			<li class="breadcrumb-item active">Tagesverbrauch</li>
+		</ol>
+		</small>
 
 		<div class="card">
-			<div class="card-body">
-			        <?php
-			        if (isset ( $_GET ['gas'] ) && isset ( $_GET ['total'])) {
-							statsGasverbrauchPerDate ();
-						} 
-					if (isset ( $_GET ['gas'] ) && isset ( $_GET ['jahr'])) {
-							statsGasverbrauchPeryear ();
-						} 
-						
-						
-					if (!isset ( $_GET ['gas'] )){
-					?>
-						<div>
-							<div class="card float-left" style="width: 20rem;">
-<!--   								<img class="card-img-top" src="..." alt="Card image cap"> -->
-  									<div class="card-body">
-    									<h4 class="card-title">Tagesverbrauch</h4>
-							    <p class="card-text">Gasverbrauch seit Start der Aufzeichnung</p>
-							    <a href="index.php?gas&total" class="btn btn-primary">Start</a>
-							  </div>
-							</div>
-							
-							<div class="card float-left" style="width: 20rem;">
-<!--   								<img class="card-img-top" src="..." alt="Card image cap"> -->
-  									<div class="card-body">
-    									<h4 class="card-title">Jahresverbrauch</h4>
-							    <p class="card-text">Jahresvergleich seit Start der Aufzeichnung</p>
-							    <a href="index.php?gas&jahr" class="btn btn-primary">Start</a>
-							  </div>
-							</div>
-						</div>
-							<?php 
-						}
+			<div class="card-body">		
+												<?php
+													statsGasverbrauchPerDate ();
+												}
+												if (isset ( $_GET ['gas'] ) && isset ( $_GET ['jahr'] )) {
+													?>
+													<small>
+												<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.php">Home</a></li>
+					<li class="breadcrumb-item active">Jahresverbrauch</li>
+				</ol>
+				</small>
 
-					?>
+				<div class="card">
+					<div class="card-body">											
+												<?php
+													
+													statsGasverbrauchPeryear ();
+												}
+												?>
+			        </div>
+				</div>
 			</div>
-		</div>
+			</div>
+			</div>
+			
+			        <?php
+											}
+											
+											if (! isset ( $_GET ['gas'] )) {
+												?>
+	<div class="container">
+	<small>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active">Home</li>
+				</ol>
+</small>
+
+				<div class="card">
+			<div class="card-body">		
+
+					<div class="card float-left" style="width: 20rem;">
+						<!--   <img class="card-img-top" src="..." alt="Card image cap"> -->
+						<div class="card-body">
+							<h4 class="card-title">Tagesverbrauch</h4>
+							<p class="card-text">Gasverbrauch seit Start der Aufzeichnung.</p>
+							<a href="index.php?gas&total" class="btn btn-primary">Start</a>
+						</div>
+					</div>
+
+					<div class="card float-left" style="width: 20rem;">
+						<!--   <img class="card-img-top" src="..." alt="Card image cap"> -->
+						<div class="card-body">
+							<h4 class="card-title">Jahresverbrauch</h4>
+							<p class="card-text">Vergleich des Gasverbrauchs über die Jahre.</p>
+							<a href="index.php?gas&jahr" class="btn btn-primary">Start</a>
+						</div>
+					</div>
+
+				</div>
+				</div>
+				</div>
+				
+					
+							<?php
+											}
+											
+											?>
+	
+			
+
+			<div class="container">
+
+				<footer class="footer">
+
+
+					<a href="index.php?gas&total">Tagesverbrauch</a> | <a
+						href="index.php?gas&jahr">Jahresverbrauch</a> <br> <span
+						class="text-muted"><small>Copyright &copy; 2017<?php
+						if (substr ( date ( "Y-m-d H:i:s", time () ), 0, 4 ) > 2017) {
+							echo " - ";
+							echo substr ( date ( "Y-m-d H:i:s", time () ), 0, 4 );
+						}
+						
+						?> <a rel="nofollow" href="http://www.borchi.de"> Christian
+								Borchmann-Backhaus</a></small></span>
 
 
 
-    </div>
-
-
-
-
-
+				</footer>
+			</div>
 
 </body>
 
